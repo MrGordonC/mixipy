@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mixipy</title>
+</head>
+<body>
+{% if latest_request_list %}
+    <ul>
+    {% for request_log in latest_request_list %}
+        <li><a href="{{ request_log.url }}>{{ request_log.url }} </a>
+            <a href={{request_log.platform.url}}>{{ request_log.platform.name }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No logs are available.</p>
+{% endif %}
+</body>
+</html>
