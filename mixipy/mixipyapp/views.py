@@ -16,7 +16,16 @@ from .serializers import *
 
 
 def index(request):
-    latest_request_list = RequestLog.objects.order_by('-pub_date')[:5]
+    request_list = RequestLog.objects.order_by('-pub_date')[:22]
+    latest_request_list = request_list
+    latest_playlists = []
+    for request_model in request_list:
+        playlist = Playlist.objects.filter(request=request_model)
+        spotify_uri = ''
+        if playlist:
+            spotify_uri = playlist.first().uri
+        latest_playlists.append(spotify_uri)
+
     # output = ', '.join([q.url for q in latest_request_list])
     # template = loader.get_template('mixipy/index.html')
     # return HttpResponse("Hello, world. You're at the mixipy index.")

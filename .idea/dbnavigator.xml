@@ -32,20 +32,26 @@
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="9544b090-f63a-4282-abd9-a46521a5dbbe">
       <console name="MySQL" type="STANDARD" schema="mixipy" session="Pool"><![CDATA[select * from mixipyapp_requestlog;
-select * from mixipyapp_search order by id desc;;
+select count(1) from mixipyapp_search order by id desc;;
 select * from mixipyapp_page order by id desc;
 select * from mixipyapp_pagerequest order by request_id desc;
-select * from mixipyapp_track;
+select count(1) from mixipyapp_track order by id;
 select * from mixipyapp_playlist order by id desc
+
+select * from mixipyapp_requestlog r
+join mixipyapp_pagerequest pr on r.id = pr.request_id
+join mixipyapp_page p on p.id = pr.page_id
+join mixipyapp_search s on s.page_id = p.id
+where r.id = 91
 
 select * from mixipyapp_requestlog m
 where m.url = 'https://www.bbc.co.uk/sounds/brand/b006wkfp'
 
 update mixipyapp_requestlog set status = 1
-where id = 40
+where id = 84
 
 delete from mixipyapp_playlist
-where request_id = 40
+where request_id = 84
 
 delete from mixipyapp_pagerequest
 where page_id = 866

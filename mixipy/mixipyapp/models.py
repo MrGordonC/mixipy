@@ -68,13 +68,13 @@ class PageRequest(models.Model):
 
 
 class Playlist(models.Model):
-    platform = models.ForeignKey(Platform, on_delete=models.DO_NOTHING)
     request = models.ForeignKey(RequestLog, on_delete=models.DO_NOTHING)
-    uri = models.CharField(max_length=50)
     name = models.CharField(max_length=250)
-    description = models.CharField(max_length=250)
+    platform = models.ForeignKey(Platform, on_delete=models.DO_NOTHING)
+    uri = models.CharField(max_length=50, blank=True)
+    description = models.CharField(max_length=250, blank=True)
 
     @classmethod
-    def create(cls, uri, platform, request, name, description):
+    def create(cls, request, name, platform, uri=None, description=None):
         playlist = cls(uri, platform, request, name, description)
         return playlist
