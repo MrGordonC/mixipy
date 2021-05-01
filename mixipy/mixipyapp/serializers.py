@@ -13,7 +13,7 @@ class RequestLogSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = RequestLog
-        fields = ['id', 'title', 'url', 'platform']
+        fields = ['id', 'title', 'url', 'platform', 'status']
 
 
 class PageSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,7 +21,7 @@ class PageSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Page
-        fields = ['id', 'title', 'url', 'request_log']
+        fields = ['id', 'title', 'url', 'request_log', 'status']
 
 
 class PageRequestSerializer(serializers.HyperlinkedModelSerializer):

@@ -42,6 +42,7 @@ urltoformat = [
     path('track/', views.TrackList.as_view()),
     path('track/<int:pk>', views.TrackDetail.as_view()),
     path('create/', views.Create.as_view()),
+    path('scrape/', views.Scrape.as_view())
 ]
 
 formatted_suffix_patterns = format_suffix_patterns(urltoformat)

@@ -1,0 +1,1 @@
+select * from mixipy_table;

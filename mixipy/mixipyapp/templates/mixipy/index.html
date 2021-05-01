@@ -8,8 +8,9 @@
 {% if latest_request_list %}
     <ul>
     {% for request_log in latest_request_list %}
-        <li><a href="{{ request_log.url }}>{{ request_log.url }} </a>
-            <a href={{request_log.platform.url}}>{{ request_log.platform.name }}</a>
+        <li>
+            <a href={{ request_log.url }}>{{ request_log.title}} </a>
+            <a href={{ request_log.platform.url }}>{{ request_log.platform.name }}</a>
         </li>
     {% endfor %}
     </ul>
