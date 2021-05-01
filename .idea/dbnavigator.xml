@@ -10,12 +10,12 @@
       <create-header value="true" />
       <quote-values-containing-separator value="true" />
       <quote-all-values value="false" />
-      <value-separator value="" />
-      <file-name value="" />
-      <file-location value="" />
+      <value-separator value="," />
+      <file-name value="MIXIPYAPP_SEARCHQUERY.csv" />
+      <file-location value="$USER_HOME$/Downloads" />
       <scope value="GLOBAL" />
       <destination value="FILE" />
-      <format value="EXCEL" />
+      <format value="CSV" />
       <charset value="UTF-8" />
     </export-instructions>
   </component>
@@ -25,18 +25,23 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="9544b090-f63a-4282-abd9-a46521a5dbbe">
-        <schema name="mixipy" object-types="table, column, view, function" />
+        <schema name="mixipy" object-types="function, table" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="9544b090-f63a-4282-abd9-a46521a5dbbe">
-      <console name="MySQL" type="STANDARD" schema="mixipy" session="Pool"><![CDATA[select * from mixipyapp_requestlog;
-select count(1) from mixipyapp_search order by id desc;;
-select * from mixipyapp_page order by id desc;
+      <console name="MySQL" type="STANDARD" schema="mixipy" session="Pool"><![CDATA[select * from mixipyapp_requestlog order by id desc;
+select  *  from mixipyapp_search order by page_id desc;;
+select * from mixipyapp_page p 
+join mixipyapp_search on page_id = p.id order by p.id desc
 select * from mixipyapp_pagerequest order by request_id desc;
-select count(1) from mixipyapp_track order by id;
+select * from mixipyapp_track order by id;
+select * from mixipyapp_track order by id desc
 select * from mixipyapp_playlist order by id desc
+select * from django_celery_results_taskresult order by id desc
+select count(distinct(uri)) from mixipyapp_track
+select * from mixipyapp_searchkey
 
 select * from mixipyapp_requestlog r
 join mixipyapp_pagerequest pr on r.id = pr.request_id
@@ -44,11 +49,20 @@ join mixipyapp_page p on p.id = pr.page_id
 join mixipyapp_search s on s.page_id = p.id
 where r.id = 91
 
+select * from mixipyapp_search
+where page_id = 222
+
+delete from mixipyapp_playlist
+where id = 140
+
 select * from mixipyapp_requestlog m
 where m.url = 'https://www.bbc.co.uk/sounds/brand/b006wkfp'
 
-update mixipyapp_requestlog set status = 1
-where id = 84
+update mixipyapp_requestlog set status = 2
+where id = 134
+
+delete from django_celery_results_taskresult
+where id = 1
 
 delete from mixipyapp_playlist
 where request_id = 84
@@ -119,7 +133,28 @@ where r.platform_id = 2
 and r.id = 6
 
 select * from mixipyapp_requestlog
-where title = 'PageDefault']]></console>
+where title = 'PageDefault'
+
+insert into mixipyapp_searchquery 
+select distinct(keywords)from mixipyapp_search;
+select keywords, char_length(keywords)
+from mixipyapp_search
+order by char_length(keywords) desc
+
+
+select s.keywords, p.url from mixipyapp_search s
+join mixipyapp_page p on p.id = s.page_id
+where (keywords in ('?', ' '))
+order by keywords
+
+delete from mixipyapp_search s
+where keywords = '? - ?'
+
+select * from mixipyapp_search s
+join mixipyapp_page p on p.id = s.page_id
+order by keywords
+
+select * from my_cache_table]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -548,7 +583,7 @@ where title = 'PageDefault']]></console>
     </code-completion-settings>
     <execution-engine-settings>
       <statement-execution>
-        <fetch-block-size value="200" />
+        <fetch-block-size value="10000" />
         <execution-timeout value="20" />
         <debug-execution-timeout value="600" />
         <focus-result value="false" />
